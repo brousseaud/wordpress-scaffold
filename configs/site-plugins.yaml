@@ -1,0 +1,8 @@
+plugins:
+  free:
+    - akismet
+    - contact-form-7
+  zips:
+    # Example premium plugin - replace or remove
+    #- url: "https://yourdomain.com/path-to-premium-plugin.zip"
+    #  name: "my-premium-plugin"
