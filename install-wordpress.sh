@@ -10,6 +10,7 @@ WP_CLI="./wp-cli.phar"
 # Determine parent directory
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 PARENT_DIR="$(dirname "$SCRIPT_DIR")"
+WP_CLI="$SCRIPT_DIR/wp-cli.phar"
 
 echo "Installing WordPress in: $PARENT_DIR"
 
