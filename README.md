@@ -44,44 +44,29 @@ This project provides a clean, automated way to install WordPress via SSH using 
 ### 1️⃣ SSH into Your Hosting or Server
 
 ```bash
-ssh your-username@your-hostname```
+ssh your-username@your-hostname
+```
 
 ### 2️⃣ Clone Your Scaffold Repository
-bash
-Copy
-Edit
+
+```bash
 git clone https://github.com/yourusername/yourrepo.git
 cd yourrepo
+```
+
 3️⃣ Make the Script Executable
-bash
-Copy
-Edit
+
+```bash
 chmod +x install-wordpress.sh
+```
+
 4️⃣ Run the Installer
-bash
-Copy
-Edit
+
+```bash
 ./install-wordpress.sh
+```
+
 5️⃣ Follow the Prompts
-The script will ask you for:
-
-Database Name
-
-Database User
-
-Database Password
-
-Database Host (defaults to localhost)
-
-Site URL
-
-Site Title
-
-Admin Username
-
-Admin Password
-
-Admin Email
 
 It will then install WordPress and your plugins.
 
