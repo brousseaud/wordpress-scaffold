@@ -62,21 +62,33 @@ $PHP_CLI $WP_CLI config create --dbname="$DB_NAME" --dbuser="$DB_USER" --dbpass=
 $PHP_CLI $WP_CLI core install --url="$SITE_URL" --title="$SITE_TITLE" --admin_user="$ADMIN_USER" --admin_password="$ADMIN_PASS" --admin_email="$ADMIN_EMAIL"
 
 # Install free plugins
-for plugin in $($YQ e '.plugins.free[]' "$SCRIPT_DIR/$CONFIG_FILE"); do
+echo "Installing free plugins..."
+$YQ e '.plugins.free[]' "$SCRIPT_DIR/$CONFIG_FILE" | while read -r plugin; do
   echo "Installing plugin: $plugin"
   $PHP_CLI $WP_CLI plugin install "$plugin" --activate
 done
 
 # Install ZIP plugins
+echo "Installing ZIP plugins..."
 ZIP_COUNT=$($YQ e '.plugins.zips | length' "$SCRIPT_DIR/$CONFIG_FILE")
+
 if [ "$ZIP_COUNT" -gt 0 ]; then
-  for i in $(seq 0 $(($ZIP_COUNT - 1))); do
+  for i in $(seq 0 $((ZIP_COUNT - 1))); do
     PLUGIN_URL=$($YQ e ".plugins.zips[$i].url" "$SCRIPT_DIR/$CONFIG_FILE")
     PLUGIN_NAME=$($YQ e ".plugins.zips[$i].name" "$SCRIPT_DIR/$CONFIG_FILE")
-    echo "Installing premium plugin: $PLUGIN_NAME from $PLUGIN_URL"
-    $PHP_CLI $WP_CLI plugin install "$PLUGIN_URL" --activate
+
+    # Check if URL is not empty
+    if [ -n "$PLUGIN_URL" ]; then
+      echo "Installing premium plugin: $PLUGIN_NAME from $PLUGIN_URL"
+      $PHP_CLI $WP_CLI plugin install "$PLUGIN_URL" --activate
+    else
+      echo "⚠️ Skipping plugin at index $i — missing URL in config."
+    fi
   done
+else
+  echo "No premium ZIP plugins to install."
 fi
+
 
 # Use default WordPress theme — no theme install needed
 echo "Using default WordPress theme."
